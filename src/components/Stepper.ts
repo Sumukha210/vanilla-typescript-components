@@ -6,18 +6,25 @@ import { HtmlElementType } from "./types";
  */
 
 class Controller {
-  private activeStepperIndex: number | null;
+  private activeStepperIndex: number;
   private allStepperBtns: NodeListOf<Element>;
 
   constructor(public section: HTMLElement) {
-    this.activeStepperIndex = null;
+    this.activeStepperIndex = 1;
 
     this.allStepperBtns = this.section?.querySelectorAll(".stepper");
     this.section.addEventListener("click", this.sectionClickHandler);
+
+    this.defaultSettings();
   }
 
   private sectionClickHandler = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
+
+    this.onStepperClick(target);
+  };
+
+  private onStepperClick(target: HTMLElement) {
     const containerElement = target.parentElement?.parentElement;
 
     if (containerElement?.classList?.contains("stepper")) {
@@ -30,7 +37,13 @@ class Controller {
       this.makeStepperInActive();
       this.makeStepperActive(target, containerElement);
     }
-  };
+  }
+
+  private defaultSettings() {
+    document.querySelector(".stepper[data-index='1']")?.classList.add("active");
+
+    document.querySelector("#prevBtn")?.setAttribute("disabled", "true");
+  }
 
   private makeStepperActive(
     target: HTMLElement,
@@ -118,10 +131,10 @@ class View {
   private renderNextPrevBtns(section: HTMLElement) {
     section.innerHTML += `
     <div class="flex justify-between items-center mr-40">
-          <button class="border-2 text-teal-600 px-8 py-2 cursor-pointer border-teal-700" id="prevBtn">
+          <button class="border-2 text-teal-600 px-8 py-2 cursor-pointer border-teal-700 disabled:cursor-not-allowed disabled:opacity-20" id="prevBtn">
             Prev
           </button>
-          <button class="border-2 text-teal-600 px-8 py-2 cursor-pointer border-teal-700" id="nextBtn">
+          <button class="border-2 text-teal-600 px-8 py-2 cursor-pointer border-teal-700 disabled:cursor-not-allowed disabled:opacity-20" id="nextBtn">
             Next
           </button>
     </div>
