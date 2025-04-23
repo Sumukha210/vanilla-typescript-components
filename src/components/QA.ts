@@ -1,3 +1,5 @@
+import { HtmlElementType } from "./types";
+
 /**
  * @interface
  *  Includes id, question and content
@@ -7,9 +9,6 @@ interface IContent {
   question: string;
   content: string;
 }
-
-/** Either HTMLElement or null */
-type HtmlElementType = HTMLElement | null;
 
 /**
  * @class

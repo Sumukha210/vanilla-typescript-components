@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+.stepperLine::after,
+.stepperLine.active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  z-index: 1;
+}
+
+.stepperLine::after {
+  background-color: lightgray;
+}
+
+.stepperLine.active::after {
+  background-color: teal;
+}
+
+.stepper.active {
+  color: teal;
+  font-weight: bold;
+}
+
+.stepper.active button span:first-of-type {
+  background-color: teal;
+  color: white;
+}

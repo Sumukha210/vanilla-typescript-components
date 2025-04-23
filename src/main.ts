@@ -1,1 +1,2 @@
-import "./components/QA";
+// import "./components/QA";
+import "./components/Stepper";
