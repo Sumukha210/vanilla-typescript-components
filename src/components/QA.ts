@@ -9,7 +9,7 @@ interface IContent {
 }
 
 /** Either HTMLElement or null */
-type SectionElementType = HTMLElement | null;
+type HtmlElementType = HTMLElement | null;
 
 /**
  * @class
@@ -19,7 +19,7 @@ type SectionElementType = HTMLElement | null;
 class Controller {
   private activeArticle: null | string = null;
 
-  constructor(public section: SectionElementType) {
+  constructor(public section: HtmlElementType) {
     this.section = section;
 
     this.section?.addEventListener("click", this.sectionClickHandler);
@@ -60,14 +60,21 @@ class Controller {
  */
 
 class View {
-  private sectionElement: SectionElementType = null;
+  private mainElement: HtmlElementType = null;
   constructor(public content: IContent[]) {
     this.content = content;
-    this.sectionElement = document.querySelector("section");
+    this.mainElement = document.querySelector("main");
 
-    this.renderElements();
+    this.createRootElement();
+  }
 
-    new Controller(this.sectionElement);
+  private async createRootElement() {
+    const section = document.createElement("section");
+    section.className = `w-2xl mx-auto flex flex-col gap-6`;
+
+    this.mainElement?.append(section);
+    this.renderElements(section);
+    new Controller(section);
   }
 
   private renderArticle(article: IContent) {
@@ -97,15 +104,15 @@ class View {
           `;
   }
 
-  private renderElements() {
-    if (this.sectionElement) {
+  private renderElements(section: HTMLElement) {
+    if (section) {
       let articleContent = "";
 
       for (const article of this.content) {
         articleContent += this.renderArticle(article);
       }
 
-      this.sectionElement.innerHTML = articleContent;
+      section.innerHTML = articleContent;
     }
   }
 }
